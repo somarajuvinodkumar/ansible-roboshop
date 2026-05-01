@@ -39,7 +39,7 @@
     - name: create systemd service file
       ansible.builtin.copy:
         dest: /etc/systemd/system/catalogue.service
-        content: |
+        content: 
           [Unit]
           Description=Catalogue Service
     
