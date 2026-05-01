@@ -25,8 +25,29 @@
         shell: /sbin/nologin
         system: true
         home: /app
-        
+
     - name: download catalogue code
       ansible.builtin.get_url:
         url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
         dest: /tmp/catalogue.zip
+
+    - name: install npm dependencies
+      ansible.builtin.command: npm install
+      args:
+      chdir: /app
+
+    - name: create systemd service file
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/catalogue.service
+        content: |
+          [Unit]
+          Description=Catalogue Service
+    
+    - name: reload systemd
+      ansible.builtin.command: systemctl daemon-reload
+
+    - name: enable and start catalogue
+      ansible.builtin.service:
+        name: catalogue
+        state: started
+        enabled: yes
