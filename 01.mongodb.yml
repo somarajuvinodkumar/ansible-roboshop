@@ -14,7 +14,7 @@
         state: prsent
 
     - name: start and enable mongodb
-      ansible.builtin.server:
+      ansible.builtin.service:
         name: mongodb
         state: started
         enabled: true
@@ -24,7 +24,7 @@
         path: /etc/mongod.conf
         regexp: 127.0.0.1
         replace: 0.0.0.0
-        
+
     - name: restart mongodb
       ansible.builtin.service:
         name: mongod
