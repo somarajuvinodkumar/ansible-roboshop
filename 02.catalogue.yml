@@ -67,7 +67,5 @@
 
     - name: load master data
       ansible.builtin.shell: |
-        path: </app/db/master-data.js
-        regexp:  --host MONGODB-SERVER-IPADDRESS
-        replace: --host mongodb.somaraju.online
-
+         mongosh --host mongodb.somaraju.online < /app/db/master-data.js
+         
