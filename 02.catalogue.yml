@@ -25,10 +25,18 @@
       ansible.builtin.get_url:
         url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
         dest: /tmp/catalogue.zip
+
+    - name: extract catalogue code    
+      ansible.builtin.unarchive:
+         src: /tmp/catalogue.zip
+         dest: /app
+
+
     - name: install npm dependencies
-      ansible.builtin.command: npm install
-      args:
-        chdir: /app
+      community.general.npm:
+         path: /app
+
+
     - name: create systemd service file
       ansible.builtin.copy:
         dest: /etc/systemd/system/catalogue.service
@@ -65,7 +73,4 @@
          name: mongodb-mongosh 
          state: present
 
-    - name: load master data
-      ansible.builtin.shell: |
-         mongosh --host mongodb.somaraju.online < /app/db/master-data.js
-         
+   
