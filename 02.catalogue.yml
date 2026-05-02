@@ -40,8 +40,8 @@
       ansible.builtin.copy:
         dest: /etc/systemd/system/catalogue.service
         content: |
-          [Unit]
-          Description=Catalogue Service
+         [Unit]
+           Description=Catalogue Service
     
     - name: reload systemd
       ansible.builtin.command: systemctl daemon-reload
