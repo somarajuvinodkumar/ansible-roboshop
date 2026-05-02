@@ -34,18 +34,21 @@
         dest: /etc/systemd/system/catalogue.service
         content: |
           [Unit]
-            Description=Catalogue Service
-          [service]
-          user=roboshop
-          Environment=MONGO=true
-          Environment=REDIS_HOST=redis.somaraju.online
+          Description=Catalogue Service
+          After=network.target
+
+          [Service]
+          User=roboshop
+          WorkingDirectory=/app
           ExecStart=/bin/node /app/server.js
           Restart=always
 
-            [Install]
-            WantedBy=multi-user.target  
+          [Install]
+          WantedBy=multi-user.target
+
     - name: reload systemd
       ansible.builtin.command: systemctl daemon-reload
+      
     - name: enable and start catalogue
       ansible.builtin.service:
         name: catalogue
