@@ -39,25 +39,15 @@
          path: /app
 
 
-    - name: create systemd service file
+    - name: copy catalogue service to system directory
       ansible.builtin.copy:
+        src: catalogue.service
         dest: /etc/systemd/system/catalogue.service
-        content: |
-          [Unit]
-          Description=Catalogue Service
-          After=network.target
+        
 
-          [Service]
-          User=roboshop
-          WorkingDirectory=/app
-          ExecStart=/bin/node /app/server.js
-          Restart=always
-
-          [Install]
-          WantedBy=multi-user.target
-
-    - name: reload systemd
-      ansible.builtin.command: systemctl daemon-reload
+    - name: systemctl daemon reload
+      ansible.builtin.systemd_service: 
+          daemon_reaload: true
 
     - name: enable and start catalogue
       ansible.builtin.service:
@@ -70,9 +60,22 @@
         src: mongo.repo
         dest:  /etc/yum.repos.d/mongo.repo 
 
-    - name: install mongodb-mongosh
+    - name: install mongodb client
       ansible.builtin.dnf:
          name: mongodb-mongosh 
          state: present
+    
+    - name: check products loaded or not
+      ansible.builtin.command: mongosh --host mongodb.kimidi.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+      register: catalogue_output
 
+    - name: print catalogue catalogue_output
+      ansible.builtin.debug:
+        msg: "{{ catalogue_output }}"
+
+    - name: load produc
+      ansible.builtin.shell: mongosh --host mongodb.kimidi.site < /app/db/master-data.js
+      when: catalogue_output.stdout | int < 0
+  
+  
    
