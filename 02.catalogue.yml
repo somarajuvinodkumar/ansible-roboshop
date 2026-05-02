@@ -32,22 +32,18 @@
          dest: /app
          remote_src: yes
 
-
-
     - name: install npm dependencies
       community.general.npm:
          path: /app
-
 
     - name: copy catalogue service to system directory
       ansible.builtin.copy:
         src: catalogue.service
         dest: /etc/systemd/system/catalogue.service
         
-
     - name: systemctl daemon reload
       ansible.builtin.systemd_service: 
-          daemon_reaload: true
+          daemon reaload: true
 
     - name: enable and start catalogue
       ansible.builtin.service:
