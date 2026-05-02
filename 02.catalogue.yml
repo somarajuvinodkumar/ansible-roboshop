@@ -48,9 +48,20 @@
 
     - name: reload systemd
       ansible.builtin.command: systemctl daemon-reload
-      
+
     - name: enable and start catalogue
       ansible.builtin.service:
         name: catalogue
         state: started
         enabled: yes
+
+    - name: copy mongodb repo
+      ansible.builtin.copy:
+      src: mongo.repo
+      path:  /etc/yum.repos.d/mongo.repo 
+
+    - name: install mongodb-mongosh
+      ansible.builtin.dnf:
+         name: mongodb-mongosh -y
+         state: present 
+
