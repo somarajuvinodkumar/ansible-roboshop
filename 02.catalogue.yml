@@ -62,6 +62,6 @@
 
     - name: install mongodb-mongosh
       ansible.builtin.dnf:
-         name: mongodb-mongosh -y
+         name: mongodb-mongosh 
          state: present 
 
