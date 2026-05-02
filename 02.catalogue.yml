@@ -63,5 +63,11 @@
     - name: install mongodb-mongosh
       ansible.builtin.dnf:
          name: mongodb-mongosh 
-         state: present 
+         state: present
+
+    - name: load master data
+      ansible.builtin.shell: |
+        path: </app/db/master-data.js
+        regexp:  --host MONGODB-SERVER-IPADDRESS
+        replace: --host mongodb.somaraju.online
 
