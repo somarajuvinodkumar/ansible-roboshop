@@ -57,8 +57,8 @@
 
     - name: copy mongodb repo
       ansible.builtin.copy:
-      src: mongo.repo
-      path:  /etc/yum.repos.d/mongo.repo 
+        src: mongo.repo
+        path:  /etc/yum.repos.d/mongo.repo 
 
     - name: install mongodb-mongosh
       ansible.builtin.dnf:
