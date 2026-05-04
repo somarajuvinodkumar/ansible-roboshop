@@ -63,15 +63,14 @@
     
     - name: check products loaded or not
       ansible.builtin.command: mongosh --host mongodb.somaraju.online --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
-      register: catalogue output
+      register: catalogue_output
 
-    - name: print catalogue catalogue output
+    - name: print catalogue output
       ansible.builtin.debug:
-        msg: "{{ catalogue output }}"
+        msg: "{{ catalogue_output }}"
 
-    - name: load product
-      ansible.builtin.shell: mongosh --host mongodb.somaraju.online < /app/db/master-data.js
-      when: catalogue output.stdout | int < 0
+    - name: load produc
+      ansible.builtin.shell: mongosh --host mongodb.soamarju.online < /app/db/master-data.js
+      when: catalogue_output.stdout | int < 0
   
   
-   
