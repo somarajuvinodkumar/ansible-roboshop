@@ -16,7 +16,6 @@
 
      - name: create roboshop system user
        ansible.builtin.user:
-        comment: "roboshop system user"
         shell: /sbin/nologin
         system: true
         home: /app
