@@ -51,7 +51,7 @@
       ansible.builtin.systemd_service:
         daemon_reload: yes
 
-    - name: system start and enable
+    - name: systemctl start and enable
       ansible.builtin.service:
          state: started
          enabled: yes
