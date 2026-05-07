@@ -1,6 +1,6 @@
 ---
 - name: configure cart server
-  hosts: cart.somaraju.online
+  hosts: cart
   become: true
   tasks:
     - name: disable default nodejs 
