@@ -12,7 +12,7 @@
          name: redis
          state: present
      - name: allow remote connections
-       ansible.builtin.replace:
+       ansible.builtin.lineinfile:
          path: /etc/redis/redis.conf
          regexp: '^bind'
          line: 'bind 0.0.0.0'
