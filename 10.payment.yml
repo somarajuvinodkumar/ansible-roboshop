@@ -34,8 +34,7 @@
       src: /tmp/payment.zip
       dest: /app
       remote_src: yes
-    args: 
-      chdir: /app       
+     
 
   - name: install python dependencies
     ansible.builtin.pip:
