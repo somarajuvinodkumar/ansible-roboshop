@@ -34,6 +34,10 @@
       src: /tmp/payment.zip
       dest: /app
       remote_src: yes
+
+  - name: move files to correct location
+    ansible.builtin.shell: |
+       mv /app/payment/* /app/  
      
 
   - name: install python dependencies
@@ -46,14 +50,14 @@
       src: payment.service
       dest: /etc/systemd/system/payment.service
 
-  - name: deamon-reload
+  - name: daemon-reload
     ansible.builtin.systemd_service:
       daemon_reload: yes
 
   - name: enable and start payment
     ansible.builtin.service:
       name: payment
-      state: started
+      state: restarted
       enabled: yes          
 
 
