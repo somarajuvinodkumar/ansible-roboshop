@@ -35,11 +35,6 @@
       dest: /app
       remote_src: yes
 
-  - name: move files to correct location
-    ansible.builtin.shell: |
-       mv /app/payment/* /app/  
-     
-
   - name: install python dependencies
     ansible.builtin.pip:
       requirements: /app/requirements.txt
