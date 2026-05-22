@@ -1,58 +1,19 @@
 ---
-- name: configure user server
-  hosts: user
-  become: yes
+- name: user creation
+  hosts: local
+  connection: local
   tasks:
-     - name: disable default nodejs -y
-       ansible.builtin.command: dnf module disable nodejs -y
+  - name: check roboshop user exist or not
+    ansible.builtin.command: id roboshop
+    register: output
+    ignore_errors: true
 
-     - name: enable default nodejs:20 -y
-       ansible.builtin.command: dnf module enable nodejs:20 -y
+  - name: craete user
+    become: yes
+    ansible.builtin.command: useradd roboshop
+    when: output.rc != 0 ## task failure
 
-     - name: install nodejs -y
-       ansible.builtin.dnf:
-         name: nodejs
-         state: present
-
-     - name: create roboshop system user
-       ansible.builtin.user:
-        name: roboshop
-        shell: /sbin/nologin
-        system: true
-        home: /app
-        create_home: yes  
-
-     - name: create app directory
-       ansible.builtin.file:
-          path: /app
-          state: directory
-
-     - name: download user code
-       ansible.builtin.get_url:
-         url: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip 
-         dest: /tmp/user.zip
- 
-     - name: extract catalogue code
-       ansible.builtin.unarchive:
-         src: /tmp/user.zip
-         dest: /app
-         remote_src: yes
-
-     - name: install dependencies
-       community.general.npm:
-         path: /app 
-
-     - name: copy user service to system directory
-       ansible.builtin.copy:
-        src: user.service
-        dest: /etc/systemd/system/user.service
-
-     - name: systemctl daemon reload
-       ansible.builtin.systemd_service:
-         daemon_reload: true
-  
-     - name: start and enable
-       ansible.builtin.service:
-        name: user
-        state: started
-        enabled: yes
+  - name: user already exist
+    ansible.builtin.debug:
+       msg: "user all ready existed"
+    when: output.rc == 0 ## task success
