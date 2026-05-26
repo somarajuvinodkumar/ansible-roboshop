@@ -3,13 +3,12 @@
   connection: local
   vars:
     instances:
-    - mysql 
-    - mongodb
-    - user 
-    subnet_id: subnet-0008e79ba37afe1ad
-    sg_id: sg-088ad0dd906cd0446
-    zone: somarju.online
-
+    - mysql
+    - backend
+    - frontend
+    subnet_id: subnet-03e6cceb18e4b8d7f
+    sg_id: sg-074fcb38eeb53bcbe
+    zone: kimidi.site
   tasks:
   - name: create ec2
     amazon.aws.ec2_instance:
@@ -19,9 +18,9 @@
       security_group: "{{ sg_id }}"
       image_id: ami-0220d79f3f480ecf5
       tags:
-        name: "{{ item }}"
-      loop: "{{ instances }}"
-      register: ec2_output
+        Name: "{{ item }}"
+    loop: "{{ instances }}"
+    register: ec2_output
 
   - name: print ec2_output
     ansible.builtin.debug:
