@@ -1,5 +1,4 @@
----
-- name: configure frontend server
+- name: configure frontend component
   hosts: frontend
   become: yes
   tasks:
@@ -14,10 +13,16 @@
       name: nginx
       state: present
 
+  - name: start and enable nginx
+    ansible.builtin.service:
+      name: nginx
+      state: started
+      enabled: yes
+
   - name: remove html directory
     ansible.builtin.file:
-       path: /usr/share/nginx/html
-       state: absent
+      path: /usr/share/nginx/html
+      state: absent
 
   - name: create html directory
     ansible.builtin.file:
@@ -48,5 +53,4 @@
   - name: restart nginx
     ansible.builtin.service:
       name: nginx
-      state: restarted                  
-                 
+      state: restarted
