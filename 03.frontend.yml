@@ -12,12 +12,7 @@
   - name: install nginx
     ansible.builtin.dnf:
       name: nginx
-      state: present  
-
-  - name: reload nginx
-    ansible.builtin.service:
-      name: nginx
-      state: reloaded
+      state: present
 
   - name: remove html directory
     ansible.builtin.file:
