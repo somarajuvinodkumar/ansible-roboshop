@@ -13,16 +13,17 @@
        name: nginx
        state: present
 
-   - name: start nginx
+   - name: start and enable nginx
      ansible.builtin.service:
        name: nginx
        state: started
+       enabled: yes
       
 
-   - name: enable nginx
-     ansible.builtin.service:
-       name: nginx
-       state: enabled
+  #  - name: enable nginx
+  #    ansible.builtin.service:
+  #      name: nginx
+  #      state: enabled
 
 
    - name: remove html directory
